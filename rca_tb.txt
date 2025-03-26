@@ -1,0 +1,82 @@
+module testbench_full_adder_8_bit;
+    reg clk, reset, carry_in;
+    reg [7:0] input_1A, input_2A;
+    wire [7:0] sum;
+    wire carry_out;
+
+    adder_8_bit dut (
+        .clk(clk),
+        .reset(reset),
+        .input_1A(input_1A),
+        .input_2A(input_2A),
+        .carry_in(carry_in),
+        .sum(sum),
+        .carry_out(carry_out)
+    );
+
+    always #5 clk = ~clk;
+
+    initial begin
+        // Initialize inputs
+        clk = 0;
+        reset = 1;
+        carry_in = 0;
+        input_1A = 8'b0;
+        input_2A = 8'b0;
+
+        // Apply reset
+        #5 reset = 0;
+    #5 begin
+    input_1A = 8'b10101010;
+    input_2A = 8'b01010101;
+    carry_in = 1;
+end
+
+// Toggle clock and display outputs
+#10;
+
+#5 begin
+    input_1A = 8'b00101010;
+    input_2A = 8'b00011100;
+    carry_in = 1;
+end
+
+// Toggle clock and display outputs
+#10;
+
+#5 begin
+    input_1A = 8'b00001010;
+    input_2A = 8'b00010111;
+    carry_in = 1;
+end
+
+// Toggle clock and display outputs
+#10;
+
+#5 begin
+    input_1A = 8'b10100010;
+    input_2A = 8'b01010100;
+    carry_in = 1;
+end
+
+// Toggle clock and display outputs
+#10;
+
+#5 begin
+    input_1A = 8'b10100010;
+    input_2A = 8'b01010001;
+    carry_in = 0;
+end
+
+// Toggle clock and display outputs
+#10;
+
+repeat(4) begin
+    #1 clk = ~clk;
+end
+
+// Stop simulation
+#20 $finish;
+
+end
+endmodule
